@@ -106,6 +106,37 @@ function parser(input::csv_t2)
     return power_info(cv.Column3, cv.Column2, time, input.name)
 end
 
+"""
+    importer(file, directory)
+
+Import the power file CSV in `directory` into a `power_file` object, which has the fields:
+
+* `voltage` = the voltage read from the CSV in [V]
+* `current` = the current read from the CSV  in [A]
+* `time` = the time, formated into seconds, from the CSV
+* `file` = the file name input
+
+For example, if you wanted to import the file `Plate18_power.csv`, located in the directory `home/user.../power_files/` , you would input the following in the REPL:
+
+```julia-repl
+julia> plate18_data = importer("Plate18_power.csv", "home/user.../power_files/")
+```
+
+Once you have a data object, you can acess the components with julia dot notation:
+
+```julia-repl
+julia> plate18_data.voltage
+```
+The above command will return a vector of the voltages stored in `plate18_data`.
+
+Alternatively, you can input the complete file path as a single string to get the same results;
+
+```julia-repl
+julia> importer("home/use.../power_files/Plate18_power.csv")
+```
+
+Which will return the same data object.
+"""
 function importer(input::AbstractString, dir::AbstractString)
     file_typer(input, dir) |> parser
 end
@@ -127,7 +158,11 @@ end
 
 ### Finding averages ### 
 
-# This imports everything into power_info objects from the directory of files
+"""
+    get_pdata(my_dir)
+
+Import all of the files in the given directory. Before importing, name filters are checked to make sure it follows one of the conventions exported by the lab computer. It will return a vector of `power_info` structs.
+"""
 function get_pdata(my_dir::AbstractString)
 examples = Vector()
 rfiles = readdir(my_dir)
@@ -148,6 +183,11 @@ sigmoid(x) = exp(x)/(1 + exp(x))
 mean(x) = sum(x)/length(x)
 σ(x) = (sqrt(sum((x .- mean(x)).^2) / (length(x) - 1)))
 
+"""
+    find_ranges(input_data::power_info)
+
+Applies an algorithm based on the rolling variance to locate reasonable regions that can be used to estimate the mean power input. It takes a `power_info` object and returns a vector containing the selected ranges. 
+"""
 function find_ranges(inp::power_info)
     # Rolling variance window is based on the size of the data
     window = 10 + ceil(Int64, 0.024 * length(inp.time))
@@ -204,6 +244,11 @@ function find_ranges(inp::power_info)
     return ranges
 end
 
+"""
+    view_range(input_data::power_info)
+
+Produce a plot showing the ranges that would be selected by the `find_ranges` function. This is a good way to check if the algorithm is selecting something reasonable.
+"""
 function view_range(inp::power_info)
     rngs = find_ranges(inp)
     plot(inp.time, power_calc(inp), legend=false)
@@ -247,7 +292,33 @@ function split(inp::mean_data)
     end
 end
 
-# This constructs a mean_data object from power_info object
+"""
+    mean(input_data::power_info)
+
+Find the mean(s) of the given `input_data`. This applies the `find_ranges` function and returns a tuple of `sample_power` objects. For example:
+
+```julia-repl
+julia> plate18_means = mean(plate18_data)
+```
+
+will produce the a tuple of objects, one for each region, called plate18_means. 
+
+The sample_power objects have the fields `name`, `summary`, and `hotcold`, indicating the original file name, a summary of the calculated mean (including mean, standard deviation, and selected regions), and finally "h" for hot plate (for the second range) or "c" for cold plate.
+
+If you wanted to see the mean of the output for the first region, you would use:
+
+```julia-repl
+julia> plate18_means[1].summary.mean
+```
+
+Similarly, if you wanted the standard deviation of the second region:
+
+```julia-repl
+julia> plate18_means[2].summary.std
+```
+
+It is important to note that this is a mean of the unadjusted power input in Watts, so no efficiency multiplier or torch travel speed has been applied. 
+"""
 function mean(inp::power_info)
     ranges = find_ranges(inp)
     means = Vector{Float64}()
