@@ -81,14 +81,14 @@ Once you have a `power_info` object from this import, you can do a few things. T
 
 Once you have a `sample_power` object, you are basically done! This contains the following fields: 
 
-- name = the original file name
-- summary = a summary of the mean data calculation
-    - ranges = the selected time range for the mean (in seconds)
-    - mean = the average power in [w], not including efficiency or tts
-    - nsamples = the number of samples in the original file (1 or 2)
-    - npoints = the number of points sampled for this average 
-    - std = the standard deviation from the mean
-- hotcold = "c" for cold plate and "h" for hot plate; just to keep track of stuff
+- name -> the original file name
+- summary -> a summary of the mean data calculation
+    - ranges -> the selected time range for the mean (in seconds)
+    - mean -> the average power in [w], not including efficiency or tts
+    - nsamples -> the number of samples in the original file (1 or 2)
+    - npoints -> the number of points sampled for this average 
+    - std -> the standard deviation from the mean
+- hotcold -> "c" for cold plate and "h" for hot plate; just to keep track of stuff
 
 In summary, if you wanted to find the average power input for the cold plate data of plate 18, you would use the following commands
 
@@ -97,7 +97,7 @@ julia> my_mean_data = mean(importer("path/to/data.csv"))
 julia> cold_plate_average = my_mean_data[1].summary.mean
 ```
 
-Likewise, if you wanted to find the standard deviation of the hot plate dataL
+Likewise, if you wanted to find the standard deviation of the hot plate data:
 
 ```julia-repl
 julia> hot_plate_std = my_mean_data[2].summary.std
