@@ -81,14 +81,14 @@ Once you have a `power_info` object from this import, you can do a few things. T
 
 Once you have a `sample_power` object, you are basically done! This contains the following fields: 
 
-- name → the original file name
-- summary → a summary of the mean data calculation
-    - ranges → the selected time range for the mean (in seconds)
-    - mean → the average power in [w], not including efficiency or tts
-    - nsamples → the number of samples in the original file (1 or 2)
-    - npoints → the number of points sampled for this average 
-    - std → the standard deviation from the mean
-- hotcold → "c" for cold plate and "h" for hot plate; just to keep track of stuff
+- `name` → the original file name
+- `summary` → a summary of the mean data calculation
+    - `ranges` → the selected time range for the mean (in seconds)
+    - `mean` → the average power in [w], not including efficiency or tts
+    - `nsamples` → the number of samples in the original file (1 or 2)
+    - `npoints` → the number of points sampled for this average 
+    - `std` → the standard deviation from the mean
+- `hotcold` → "c" for cold plate and "h" for hot plate; just to keep track of stuff
 
 In summary, if you wanted to find the average power input for the cold plate data of plate 18, you would use the following commands
 
@@ -103,11 +103,24 @@ Likewise, if you wanted to find the standard deviation of the hot plate data:
 julia> hot_plate_std = my_mean_data[2].summary.std
 ```
 
-What if you forgot which file it came from? 
+or if you forgot which file it came from? 
 
 ```julia-repl
 julia> my_mean_data.name
 ```
 
-Will return the original file used to generate the object!
+will return the original file used to generate the object!
+
+## Verifying the selection
+
+You can view what the algorithm is selecting by using the `view_range` function, which plots the power data and the range(s) selected by the algorithm:
+
+```julia-repl
+julia> view_range(importer("path/to/Plate15_data.csv"))
+```
+
+Which will produce the plot:
+
+![](./example_range_plot.png)
+
 
