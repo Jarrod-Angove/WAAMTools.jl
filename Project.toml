@@ -12,6 +12,9 @@ XLSX = "fdbf4ff8-1666-58a4-91e7-1b58723a45e0"
 
 [compat]
 XLSX = "0.8"
+Revise = "3"
+Tables = "1"
+Plots = "1"
 julia = "1"
 
 [extras]
