@@ -62,6 +62,7 @@ Once you have a `power_info` object, you can access the components with julia do
 ```julia-repl
 julia> plate18_data.voltage
 ```
+
 The above command will return a vector of the voltages stored in `plate18_data`.
 
 Alternatively, you can input the complete file path as a single string to get the same results;
@@ -72,7 +73,7 @@ julia> importer("home/use.../power_files/Plate18_power.csv")
 
 Which will return the same data object.
 
-Once you have a `power_info` object from this import, you can do a few things. The main purpose of this package at this time is splitting power data into ranges for taking averages, so the main function is `mean`, which takes one of these objects and does a few things:
+Once you have a `power_info` object from this import, you can do a few things. The main purpose of this package is splitting power data into averages, so the main function is `mean`, which takes one of these objects and does a few things:
 
 1. Identify stable regions for averaging
 2. Calculates the mean and standard deviation of these regions
@@ -119,5 +120,3 @@ julia> view_range(importer("path/to/Plate15_data.csv"))
 Which will produce the plot:
 
 ![](./example_range_plot.png)
-
-
