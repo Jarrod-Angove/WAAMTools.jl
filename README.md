@@ -73,11 +73,15 @@ julia> importer("home/use.../power_files/Plate18_power.csv")
 
 Which will return the same data object.
 
-Once you have a `power_info` object from this import, you can do a few things. The main purpose of this package at this time is splitting power data into ranges for taking averages, so the main function is `mean`, which takes one of these objects and does a few things. 
+Once you have a `power_info` object from this import, you can do a few things. The main purpose of this package at this time is splitting power data into ranges for taking averages, so the main function is `mean`, which takes one of these objects and does a few things:
 
 1. Identify stable regions for averaging
 2. Calculates the mean and standard deviation of these regions
 3. If there are multiple regions (for trials where there are 2 beads on a plate), split the resulting data into individual `sample_power` objects, which contain all information relevant to the sample power calculation. 
+
+```julia-repl
+julia> my_mean_data = mean(plate18_dat)
+```
 
 Once you have a `sample_power` object, you are basically done! This contains the following fields: 
 
