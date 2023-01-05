@@ -8,13 +8,12 @@ My intention is to open up the code I have been using to others. By creating a p
 
 As this is a julia package, you will first need to install julia. The easiest way to do this is to follow the instructions at [the julia downloads page](https://julialang.org/downloads/).
 
-You can install the package in your REPL with the following command:
-
+After julia is installed, launch it and enter the following command to install this package:
 ```julia-repl
 julia> import Pkg; Pkg.add(url="https://github.com/Jarrod-Angove/WAAMTools.jl")
 ```
 
-Once the package is installed, you can launch it in the REPL:
+Once the package is installed, you need to tell the current session to use it (this is something you will need to do every time you launch julia; the installation steps only happen once): 
 
 ```julia-repl
 julia> using WAAMTools
@@ -24,7 +23,7 @@ You can then start using the functions provided by the package.
 
 ## TL;DR
 
-Install julia, launch it, then run the following command in the REPL to find the mean(s) power for a file with the absolute path `path/to/my_power_file.csv`. 
+Run the following command in the REPL to find the mean power(s) for a file with the absolute path `path/to/my_power_file.csv`
 
 ```julia-repl
 julia> my_mean = mean(importer("path/to/my_power_file.csv"))
@@ -37,7 +36,7 @@ julia> mean_sample1 = my_mean[1].summary.mean
 julia> mean_sample2 = my_mean[2].summary.mean
 ```
 
-Please note that these values are the average power [W] input over time, and **do not account for heat transfer efficiency or torch travel speed**. 
+`mean_sample1` will then be the mean power for the cold plate, and `mean_sample2` will be the mean power for the hot plate. Please note that these values are the average power [W] input over time, and **do not account for heat transfer efficiency or torch travel speed**. 
 
 ## Typical power import
 
