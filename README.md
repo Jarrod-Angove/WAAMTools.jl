@@ -107,13 +107,7 @@ Likewise, if you wanted to find the standard deviation of the hot plate data:
 julia> hot_plate_std = my_mean_data[2].summary.std
 ```
 
-or if you forgot which file it came from? 
-
-```julia-repl
-julia> my_mean_data.name
-```
-
-will return the original file used to generate the object!
+If you forgot where your data came from, you can use `my_mean_data.name` to see its original file name, or `my_mean_data.hotcold` to see if the mean data corresponds to the first (cold plate) or second (hot plate) sample.
 
 ## Verifying the selection
 
