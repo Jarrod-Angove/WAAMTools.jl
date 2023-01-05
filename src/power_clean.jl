@@ -228,13 +228,11 @@ function find_ranges(inp::power_info)
     # Snip off the first and last bits of data to only select stable regions
     function trim(rng::Vector{Float64})
         df = (rng[2] - rng[1])
-        return [rng[1]+0.15*df, rng[2] - 0.05*df]
+        return [rng[1]+0.18*df, rng[2] - 0.05*df]
     end
 
     ranges = Vector{Vector{Float64}}()
-    if length(jumps) == 2
-        push!(ranges, trim(jumps[1:2]))
-    elseif length(jumps) == 4
+    if length(jumps) == 2 push!(ranges, trim(jumps[1:2])) elseif length(jumps) == 4
         push!(ranges, trim(jumps[1:2]))
         push!(ranges, trim(jumps[3:4]))
     else
@@ -283,10 +281,12 @@ function split(inp::mean_data)
             inp.nsamples, [inp.npoints[1]], [inp.std[1]])
         hot_data = mean_data([inp.ranges[2]], [inp.mean[2]],
             inp.nsamples, [inp.npoints[2]], [inp.std[2]])
-        return(cold_data, hot_data)
+            return (cold_data, hot_data)
     elseif length(inp.ranges) == 1
         println("This power info only contains one sample")
-        return (cold_data)
+        cold_data = mean_data([inp.ranges[1]], [inp.mean[1]],
+            inp.nsamples, [inp.npoints[1]], [inp.std[1]])
+            return (cold_data,)
     elseif length(inp.ranges) == 0
         println("Empty mean data")
     end
@@ -339,7 +339,7 @@ function mean(inp::power_info)
         r2 = sample_power(inp.file, out[2], "h")
         return (r1, r2)
     elseif length(out) == 1
-        return sample_power(inp.file, out, "c")
+        return sample_power(inp.file, out[1], "c")
     end
 end
 
