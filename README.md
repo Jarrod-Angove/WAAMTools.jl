@@ -2,7 +2,7 @@
 
 This is a julia package that is intended to make the day-to-day data crunching at the university of Alberta WAAM lab a little easier. I haven't gotten around to porting over the pyrometer tools yet, so it's really just a fancy power data import tool for the time being.
 
-My intention is to open up the code I have been using to others. By creating a package, the algorithms can be used in short scripts by others to automate new tasks.
+My intention is to open up the code I have been using to others. By creating a package, the algorithms can be used in short scripts to automate new tasks.
 
 # Getting Started
 
