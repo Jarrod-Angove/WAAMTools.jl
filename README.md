@@ -11,7 +11,7 @@ As this is a julia package, you will first need to install julia. The easiest wa
 You can install the package in your REPL with the following command:
 
 ```julia-repl
-julia> import Pkg; Pkg.add(https://github.com/Jarrod-Angove/WAAMTools.jl)
+julia> import Pkg; Pkg.add(url="https://github.com/Jarrod-Angove/WAAMTools.jl")
 ```
 
 Once the package is installed, you can launch it in the REPL:
